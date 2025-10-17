@@ -27,7 +27,7 @@ Core features:
 
 To spin up this example locally, follow these steps:
 
-### Clone
+### Clone!
 
 If you have not done so already, you need to have standalone copy of this repo on your machine. If you've already cloned this repo, skip to [Development](#development).
 
