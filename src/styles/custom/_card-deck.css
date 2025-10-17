@@ -1,0 +1,169 @@
+@layer components {
+  @property --i{
+    syntax: "<number>";
+    inherits: false;
+    initial-value: 1;
+  }
+
+  @property --m{
+    syntax: "<angle>";
+    inherits: false;
+    initial-value: 1deg;
+  }
+
+  ::view-transition-group(*) {
+    animation-duration: 750ms;
+    animation-timing-function: cubic-bezier(.5, -.1, .1, 1.5);
+  }
+
+  .bento {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-rows: repeat(2, 1fr);
+    // row-gap: calc(var(--spacing) * 4);
+    
+    min-inline-size: 50vh;
+    aspect-ratio: 1.6180/1;
+    
+    & > :not(legend) {
+      --m: calc(var(--i) * var(--r) * 1deg);
+      display: grid;
+      transform: rotate(calc(sin(var(--i)) * var(--m)));
+      overflow: hidden;
+      border-radius: var(--radius-2xl);
+      cursor: pointer;
+      @media (prefers-reduced-motion: no-preference) {
+        &:nth-child(1) {
+          view-transition-name: opt-1;
+          & > label {
+            view-transition-name: opt-1-label;
+          }
+          & > input {
+            view-transition-name: opt-1-input;
+          }
+          & > img {
+            view-transition-name: opt-1-image;
+          }
+        }
+        &:nth-child(2) {
+          view-transition-name: opt-2;
+          & > label {
+            view-transition-name: opt-2-label;
+          }
+          & > input {
+            view-transition-name: opt-2-input;
+          }
+          & > img {
+            view-transition-name: opt-2-image;
+          }
+        }
+        &:nth-child(3) {
+          --i: 3;
+          view-transition-name: opt-3;
+          & > label {
+            view-transition-name: opt-3-label;
+          }
+          & > input {
+            view-transition-name: opt-3-input;
+          }
+          & > img {
+            view-transition-name: opt-3-image;
+          }
+        }
+        &:nth-child(4) {
+          view-transition-name: opt-4;
+          & > label {
+            view-transition-name: opt-4-label;
+          }
+          & > input {
+            view-transition-name: opt-4-input;
+          }
+          & > img {
+            view-transition-name: opt-4-image;
+          }
+        }
+        &:nth-child(5) {
+          view-transition-name: opt-5;
+          & > label {
+            view-transition-name: opt-5-label;
+          }
+          & > input {
+            view-transition-name: opt-5-input;
+          }
+          & > img {
+            view-transition-name: opt-5-image;
+          }
+        }
+        &:nth-child(6) {
+          view-transition-name: opt-6;
+          & > label {
+            view-transition-name: opt-6-label;
+          }
+          & > input {
+            view-transition-name: opt-6-input;
+          }
+          & > img {
+            view-transition-name: opt-6-image;
+          }
+        }
+
+        & :is(label, input) {
+          width: fit-content;
+        }
+      }
+      &:focus-within {
+        outline: 2px solid light-dark(black, white);
+        outline-offset: 2px;
+      }
+
+    }
+
+    & input{
+      position: absolute;
+      appearance: none;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      margin: -1px;
+      border: 0;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      white-space: nowrap;
+    }
+
+    & label {
+      display: grid;
+      cursor: pointer;
+      grid-template-areas: "stack";
+      & > * {
+        grid-area: stack;
+      }
+      span {
+        align-self: end;
+        padding:1lh;
+        visibility: hidden;
+      }
+      img {
+        border-radius: var(--radius-2xl);
+      }
+    }
+    
+    & > article:has(input:checked) {
+      scale: 1.1;
+      grid-row: 1 / -1;
+      grid-column: 1;
+      
+      & > label {
+        font-size: 2rem;
+        span{
+          visibility: visible;
+        }
+      }
+      
+      & img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+}

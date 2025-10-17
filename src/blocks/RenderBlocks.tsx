@@ -7,13 +7,16 @@ import { CallToActionBlock } from '@/blocks/CallToAction/Component'
 import { ContentBlock } from '@/blocks/Content/Component'
 import { FormBlock } from '@/blocks/Form/Component'
 import { MediaBlock } from '@/blocks/MediaBlock/Component'
+import { DeckShuffleBlock } from '@/blocks/DeckShuffleBlock/Component'
 
 const blockComponents = {
   archive: ArchiveBlock,
   content: ContentBlock,
   cta: CallToActionBlock,
+  deck: DeckShuffleBlock,
   formBlock: FormBlock,
   mediaBlock: MediaBlock,
+  deckShuffleBlock: DeckShuffleBlock,
 }
 
 export const RenderBlocks: React.FC<{

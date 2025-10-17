@@ -1,0 +1,28 @@
+:root {
+  --font-size: 16px;
+  --rhythm: calc(var(--font-size) * 1.75);
+  color-scheme: light dark;
+}
+.wrapper,
+.fullwidth {
+  --_container-gap: 0px;
+  --_container-margin: var(--size-7);
+  --_container-gutter: var(--size-3);
+  --_content-width: 100%;
+  display: grid;
+  column-gap: var(--_container-gap);
+  grid-template-columns:
+    [full-bleed-start] minmax(0, 1fr)
+    [feature-start] minmax(0, calc(var(--rhythm) * 1))
+    [body-start] minmax(0, var(--_content-width))
+    [body-end] minmax(0, calc(var(--rhythm) * 1))
+    [feature-end] minmax(0, 1fr) [full-bleed-end];
+  @media (--md-n-above) {
+    --_container-gutter: var(--size-6);
+    --_container-margin: var(--size-10);
+    --_content-width: 1280px;
+  }
+  & > * {
+    grid-column: body;
+  }
+}
