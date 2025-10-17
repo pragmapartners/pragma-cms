@@ -31,7 +31,7 @@ export const Deck: React.FC<DeckProps> = (props) => {
 
   const { alignItems, className, cards, showDescription, title } = props
 
-  const fieldsetRef = useRef<HTMLFieldSetElement | null>(null)
+  const fieldsetRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
     const fieldset = fieldsetRef.current
