@@ -1,0 +1,5 @@
+.header{
+  position: relative;
+  z-index: 20;
+  background-color: var(--background);
+}

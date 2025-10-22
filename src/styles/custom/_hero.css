@@ -1,0 +1,9 @@
+.hero{
+  --hero-background: linear-gradient(279deg, light-dark(var(--pragma-lightgrey), var(--pramga-darkgrey)) 6.94%, light-dark(var(--pragma-white), var(--pragma-black)) 107.77%);
+  position: relative;
+  display: grid;
+  align-items: center;
+  min-height: 80vh;
+  background: var(--hero-background);
+  color: light-dark(var(--pragma-black), var(--pragma-white));
+}

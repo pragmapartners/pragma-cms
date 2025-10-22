@@ -39,6 +39,14 @@ export const hero: Field = {
       required: true,
     },
     {
+      name: 'eyebrow',
+      type: 'text',
+      admin: {
+        condition: (_, { type } = {}) => ['highImpact'].includes(type),
+      },
+      label: 'Eyebrow',
+    },
+    {
       name: 'richText',
       type: 'richText',
       editor: lexicalEditor({

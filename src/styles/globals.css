@@ -4,7 +4,11 @@
 
 @import './base/_custom-media.css';
 @import './base/_grid.css';
+@import './typography/_links.css';
+@import './base/_header.css';
 @import './custom/_card-deck.css';
+@import './custom/_hero.css';
+@import './custom/_stack.css';
 
 /*
   The default border color has changed to `currentcolor` in Tailwind CSS v4,
@@ -14,6 +18,28 @@
   If we ever want to remove these styles, we need to add an explicit border
   color utility to any element that depends on these defaults.
 */
+@layer theme{
+  :root {
+    --pragma-blue: #0A5473;
+    --pragma-turquoise: #034959;
+    --pragma-black: #000000;
+    --pramga-darkgrey: #0f0f0f;
+    --pragma-white: #ffffff;
+    --pragma-lightgrey: #E7EDF0;
+    --pragma-red: #eb3248;
+    --pragma-yellow: #fad20b;
+    --pragma-purple: #4c4262;
+    --pragma-grey: #797979;
+
+    --background: light-dark(var(--pragma-white), var(--pragma-black));
+    --foreground: light-dark(var(--pramga-darkgrey), var(--pragma-lightgrey));
+
+    --success: oklch(81.87% 0.0587 221.64);
+    --warning: oklch(91.3% 0.0598 73.5);
+    --error: oklch(86.82% 0.071 30.41);
+  }
+}
+
 @layer base {
   *,
   ::after,
@@ -66,43 +92,7 @@
 
     --radius: 0.2rem;
 
-    --success: 196 52% 74%;
-    --warning: 34 89% 85%;
-    --error: 10 100% 86%;
-  }
-
-  [data-theme='dark'] {
-    --background: 0 0% 0%;
-    --foreground: 210 40% 98%;
-
-    --card: 0 0% 4%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 0, 0%, 15%, 0.8;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-
-    --success: 196 100% 14%;
-    --warning: 34 51% 25%;
-    --error: 10 39% 43%;
+    
   }
 }
 

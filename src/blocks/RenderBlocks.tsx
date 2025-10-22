@@ -8,6 +8,7 @@ import { ContentBlock } from '@/blocks/Content/Component'
 import { FormBlock } from '@/blocks/Form/Component'
 import { MediaBlock } from '@/blocks/MediaBlock/Component'
 import { DeckShuffleBlock } from '@/blocks/DeckShuffleBlock/Component'
+import { CollectionStackBlock } from '@/blocks/CollectionStackBlock/Component'
 
 const blockComponents = {
   archive: ArchiveBlock,
@@ -17,6 +18,7 @@ const blockComponents = {
   formBlock: FormBlock,
   mediaBlock: MediaBlock,
   deckShuffleBlock: DeckShuffleBlock,
+  collectionStack: CollectionStackBlock,
 }
 
 export const RenderBlocks: React.FC<{

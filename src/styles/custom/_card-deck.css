@@ -20,7 +20,6 @@
     display: grid;
     grid-template-columns: 2fr 1fr 1fr;
     grid-template-rows: repeat(2, 1fr);
-    // row-gap: calc(var(--spacing) * 4);
     
     min-inline-size: 50vh;
     aspect-ratio: 1.6180/1;
