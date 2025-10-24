@@ -1,4 +1,5 @@
 'use client'
+import { useRouter } from 'next/navigation'
 import { cn } from '@/utilities/ui'
 import Link from 'next/link'
 import React, { Fragment, useEffect, useState } from 'react'
@@ -15,6 +16,7 @@ export const StackItem: React.FC<{
   staticImage?: StaticImageData
   index?: number
 }> = (props) => {
+  const router = useRouter()
 
   const { className, doc, title: titleFromProps, staticImage, index } = props
   const { title, media } = doc || {}
@@ -29,6 +31,9 @@ export const StackItem: React.FC<{
     >
       <div className="item--inner">
         <p>{titleFromProps || doc?.title}</p>
+        <button type="button" onClick={() => router.replace('/contact')}>
+      Click me
+    </button>
         {displayImage && <Media htmlElement={null} resource={displayImage as MediaType} size="33vw" />}
       </div>
     </article>

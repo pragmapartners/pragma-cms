@@ -9,6 +9,7 @@
 @import './custom/_card-deck.css';
 @import './custom/_hero.css';
 @import './custom/_stack.css';
+@import './custom/_modal.css';
 
 /*
   The default border color has changed to `currentcolor` in Tailwind CSS v4,
