@@ -24,14 +24,23 @@ const nextConfig = {
       }
     ],
   },
-  webpack: (webpackConfig) => {
-    webpackConfig.resolve.extensionAlias = {
-      '.cjs': ['.cts', '.cjs'],
-      '.js': ['.ts', '.tsx', '.js', '.jsx'],
-      '.mjs': ['.mts', '.mjs'],
-    }
-
-    return webpackConfig
+  // Turbopack configuration for dev mode
+  experimental: {
+    turbo: {
+      rules: {
+        // Configure file extension handling for Turbopack
+        '*.cts': {
+          loaders: ['ts-loader'],
+        },
+        '*.mts': {
+          loaders: ['ts-loader'],
+        },
+      },
+      resolveExtensions: ['.ts', '.tsx', '.js', '.jsx', '.json', '.mjs', '.cjs', '.cts', '.mts'],
+      resolveAlias: {
+        // Add any aliases you need here
+      },
+    },
   },
   reactStrictMode: true,
   redirects,
