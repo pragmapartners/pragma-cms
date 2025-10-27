@@ -1,61 +1,72 @@
-import type { Metadata } from 'next/types'
+import type { Metadata } from 'next'
 
-import { CollectionArchive } from '@/components/CollectionArchive'
-import { PageRange } from '@/components/PageRange'
-import { Pagination } from '@/components/Pagination'
+import { PayloadRedirects } from '@/components/PayloadRedirects'
 import configPromise from '@payload-config'
-import { getPayload } from 'payload'
-import React from 'react'
+import { getPayload, type RequiredDataFromCollectionSlug } from 'payload'
+import { draftMode } from 'next/headers'
+import React, { cache } from 'react'
 
-export const dynamic = 'force-static'
-export const revalidate = 600
+import { RenderBlocks } from '@/blocks/RenderBlocks'
+import { RenderHero } from '@/heros/RenderHero'
+import { generateMeta } from '@/utilities/generateMeta'
+import { LivePreviewListener } from '@/components/LivePreviewListener'
 
-export default async function Page() {
-  const payload = await getPayload({ config: configPromise })
+export default async function CaseStudiesPage() {
+  const { isEnabled: draft } = await draftMode()
+  const slug = 'case-studies'
+  const url = '/' + slug
 
-  const caseStudies = await payload.find({
-    collection: 'case-studies',
-    depth: 1,
-    limit: 12,
-    overrideAccess: false,
-    select: {
-      title: true,
-      slug: true,
-      categories: true,
-      meta: true,
-    },
+  let page: RequiredDataFromCollectionSlug<'pages'> | null
+
+  page = await queryPageBySlug({
+    slug,
   })
 
+  if (!page) {
+    return <PayloadRedirects url={url} />
+  }
+
+  const { hero, layout } = page
+
   return (
-    <div className="pt-24 pb-24">
-      <div className="container mb-16">
-        <div className="prose dark:prose-invert max-w-none">
-          <h1>Case Studies</h1>
-        </div>
-      </div>
+    <article className="relative">
+      {/* Allows redirects for valid pages too */}
+      <PayloadRedirects disableNotFound url={url} />
 
-      <div className="container mb-8">
-        <PageRange
-          collection="caseStudies"
-          currentPage={caseStudies.page}
-          limit={12}
-          totalDocs={caseStudies.totalDocs}
-        />
-      </div>
+      {draft && <LivePreviewListener />}
 
-      <CollectionArchive posts={caseStudies.docs} relatedTo='case-studies' />
-
-      <div className="container">
-        {caseStudies.totalPages > 1 && caseStudies.page && (
-          <Pagination page={caseStudies.page} totalPages={caseStudies.totalPages} />
-        )}
-      </div>
-    </div>
+      <RenderHero {...hero} />
+      <RenderBlocks blocks={layout} />
+    </article>
   )
 }
 
-export function generateMetadata(): Metadata {
-  return {
-    title: `Case Studies`,
-  }
+export async function generateMetadata(): Promise<Metadata> {
+  const slug = 'case-studies'
+  const page = await queryPageBySlug({
+    slug,
+  })
+
+  return generateMeta({ doc: page })
 }
+
+const queryPageBySlug = cache(async ({ slug }: { slug: string }) => {
+  const { isEnabled: draft } = await draftMode()
+
+  const payload = await getPayload({ config: configPromise })
+
+  const result = await payload.find({
+    collection: 'pages',
+    draft,
+    limit: 1,
+    pagination: false,
+    overrideAccess: draft,
+    where: {
+      slug: {
+        equals: slug,
+      },
+    },
+  })
+
+  return result.docs?.[0] || null
+})

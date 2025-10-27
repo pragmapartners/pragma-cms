@@ -46,8 +46,6 @@ export default async function CaseStudy({ params: paramsPromise }: Args) {
   const url = '/case-studies/' + slug
   const study = await queryPostBySlug({ slug })
 
-  console.log('🚀 Regular page rendered for slug:', slug)
-
   if (!study) return <PayloadRedirects url={url} />
 
   console.log(study)
@@ -58,8 +56,6 @@ export default async function CaseStudy({ params: paramsPromise }: Args) {
       <PayloadRedirects disableNotFound url={url} />
 
       {draft && <LivePreviewListener />}
-
-      <div className="mb-4 text-sm text-gray-500">Regular Page View</div>
 
       <PostHero post={study} />
 

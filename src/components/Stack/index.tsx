@@ -17,17 +17,20 @@ export type StackItem = {
     openInNewTab?: boolean
   }
   image?: StaticImageData | MediaType
+  media: MediaType[]
+  slug: string
 }
 
 export type StackProps = {
   className?: string
   items: StackItem[]
   style?: 'scale' | 'bloom' | null
+  relationTo?: 'posts' | 'case-studies'
 }
 
 export const Stack: React.FC<StackProps> = (props) => {
 
-  const { className, items, style } = props
+  const { className, items, style, relationTo } = props
 
   //copy items into itself to mock 20 items for styling purposes
   const extendedItems = [...items, ...items, ...items, ...items, ...items]
@@ -50,6 +53,7 @@ export const Stack: React.FC<StackProps> = (props) => {
                 className={
                   style === 'scale' ? 'fullwidth' : ''
                 }
+                relationTo={relationTo}
               />
             )
           })}

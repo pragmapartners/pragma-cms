@@ -11,8 +11,6 @@ export default function CaseStudiesLayout({
     <>
       {children}
       {modal}
-      {/* <div className="overlay top">inset start 50%</div>
-      <div className="overlay bottom">inset end 10%</div> */}
     </>
   )
 }

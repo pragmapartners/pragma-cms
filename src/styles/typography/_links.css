@@ -3,6 +3,10 @@ a{
     background-color: light-dark(var(--pragma-black), var(--pragma-white));
     color: light-dark(var(--pragma-white), var(--pragma-black));
   }
+  &[data-variant='outline']{
+    border-color: light-dark(var(--pragma-black),var(--pragma-white));
+    background-color: transparent;
+  }
   &[data-variant='link']{
     justify-content: start;
     align-items: start;

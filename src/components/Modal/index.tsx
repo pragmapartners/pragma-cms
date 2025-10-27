@@ -7,13 +7,14 @@ export function Modal({ children }: { children: React.ReactNode }) {
   const router = useRouter()
 
   const onDismiss = useCallback(() => {
-    router.back()
+    const modalElement = document.getElementsByClassName('modal--wrapper')
+    modalElement[0].classList.add('modal--exit')
+    setTimeout(() => {
+      router.back()
+    }, 300)
   }, [router])
 
-  useEffect(() => {
-    // Prevent body scroll when modal is open
-    document.body.style.overflow = 'hidden'
-    
+  useEffect(() => {    
     // Handle escape key
     function handleEscape(e: KeyboardEvent) {
       if (e.key === 'Escape') {
@@ -24,7 +25,6 @@ export function Modal({ children }: { children: React.ReactNode }) {
     document.addEventListener('keydown', handleEscape)
 
     return () => {
-      document.body.style.overflow = 'unset'
       document.removeEventListener('keydown', handleEscape)
     }
   }, [onDismiss])
@@ -47,7 +47,9 @@ export function Modal({ children }: { children: React.ReactNode }) {
           >
             ✕
           </button>
-          {children}
+          <div className="modal--draw">
+            {children}
+          </div>
         </div>
       </div>
     </div>

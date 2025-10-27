@@ -5,7 +5,6 @@ import configPromise from '@payload-config'
 import { getPayload, type RequiredDataFromCollectionSlug } from 'payload'
 import { draftMode } from 'next/headers'
 import React, { cache } from 'react'
-import { homeStatic } from '@/endpoints/seed/home-static'
 
 import { RenderBlocks } from '@/blocks/RenderBlocks'
 import { RenderHero } from '@/heros/RenderHero'
@@ -25,7 +24,7 @@ export async function generateStaticParams() {
       slug: true,
     },
   })
-
+  
   const params = pages.docs
     ?.filter((doc) => {
       return doc.slug !== 'home'
@@ -45,6 +44,7 @@ type Args = {
 
 export default async function Page({ params: paramsPromise }: Args) {
   const { isEnabled: draft } = await draftMode()
+  const params = await paramsPromise
   const { slug = 'home' } = await paramsPromise
   const url = '/' + slug
 
@@ -54,10 +54,7 @@ export default async function Page({ params: paramsPromise }: Args) {
     slug,
   })
 
-  // Remove this code once your website is seeded
-  if (!page && slug === 'home') {
-    page = homeStatic
-  }
+  console.log(page)
 
   if (!page) {
     return <PayloadRedirects url={url} />
@@ -66,7 +63,7 @@ export default async function Page({ params: paramsPromise }: Args) {
   const { hero, layout } = page
 
   return (
-    <article className="pt-16 pb-24">
+    <article>
       <PageClient />
       {/* Allows redirects for valid pages too */}
       <PayloadRedirects disableNotFound url={url} />

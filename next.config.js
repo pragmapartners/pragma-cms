@@ -23,27 +23,27 @@ const nextConfig = {
         hostname: 'gzdbfjjyoibfqrogzcax.supabase.co',
       }
     ],
-  },
-  // Turbopack configuration for dev mode
-  experimental: {
-    turbo: {
-      rules: {
-        // Configure file extension handling for Turbopack
-        '*.cts': {
-          loaders: ['ts-loader'],
-        },
-        '*.mts': {
-          loaders: ['ts-loader'],
-        },
-      },
-      resolveExtensions: ['.ts', '.tsx', '.js', '.jsx', '.json', '.mjs', '.cjs', '.cts', '.mts'],
-      resolveAlias: {
-        // Add any aliases you need here
-      },
-    },
+    qualities: [75, 100],
   },
   reactStrictMode: true,
   redirects,
+  turbopack: {
+    rules: {
+      // Configure file extension handling for Turbopack
+      '*.cts': {
+        loaders: ['ts-loader'],
+      },
+      '*.mts': {
+        loaders: ['ts-loader'],
+      },
+    },
+
+    resolveExtensions: ['.ts', '.tsx', '.js', '.jsx', '.json', '.mjs', '.cjs', '.cts', '.mts'],
+
+    resolveAlias: {
+      // Add any aliases you need here
+    }
+  },
 }
 
 export default withPayload(nextConfig, { devBundleServerPackages: false })
