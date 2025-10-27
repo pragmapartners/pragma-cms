@@ -11,6 +11,11 @@ import { RenderHero } from '@/heros/RenderHero'
 import { generateMeta } from '@/utilities/generateMeta'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
 
+// Create a single cached Payload instance to reuse
+const getPayloadInstance = cache(async () => {
+  return await getPayload({ config: configPromise })
+})
+
 export default async function CaseStudiesPage() {
   const { isEnabled: draft } = await draftMode()
   const slug = 'case-studies'
@@ -20,6 +25,7 @@ export default async function CaseStudiesPage() {
 
   page = await queryPageBySlug({
     slug,
+    draft,
   })
 
   if (!page) {
@@ -30,11 +36,8 @@ export default async function CaseStudiesPage() {
 
   return (
     <article className="relative">
-      {/* Allows redirects for valid pages too */}
       <PayloadRedirects disableNotFound url={url} />
-
       {draft && <LivePreviewListener />}
-
       <RenderHero {...hero} />
       <RenderBlocks blocks={layout} />
     </article>
@@ -42,25 +45,26 @@ export default async function CaseStudiesPage() {
 }
 
 export async function generateMetadata(): Promise<Metadata> {
+  const { isEnabled: draft } = await draftMode()
   const slug = 'case-studies'
   const page = await queryPageBySlug({
     slug,
+    draft,
   })
 
   return generateMeta({ doc: page })
 }
 
-const queryPageBySlug = cache(async ({ slug }: { slug: string }) => {
-  const { isEnabled: draft } = await draftMode()
-
-  const payload = await getPayload({ config: configPromise })
+const queryPageBySlug = cache(async ({ slug, draft }: { slug: string; draft?: boolean }) => {
+  // Reuse the cached Payload instance
+  const payload = await getPayloadInstance()
 
   const result = await payload.find({
     collection: 'pages',
-    draft,
+    draft: draft || false,
     limit: 1,
     pagination: false,
-    overrideAccess: draft,
+    overrideAccess: draft || false,
     where: {
       slug: {
         equals: slug,
