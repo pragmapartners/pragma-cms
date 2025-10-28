@@ -44,8 +44,10 @@ export const StackItem: React.FC<{
   }
 
   return (
+    // @TODO replace with native Link component
     <article 
       className={cn('stack--item', className)}
+      onMouseEnter={() => router.prefetch(href)}
       onClick={handleClick}
       style={{ 
         '--title-count': title ? titleCharacterCount(title) : 0,
