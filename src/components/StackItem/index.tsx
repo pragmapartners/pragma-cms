@@ -8,6 +8,7 @@ import type { Media as MediaType } from '@/payload-types'
 import type { StaticImageData } from 'next/image'
 
 import { Media } from '@/components/Media'
+import Image from 'next/image'
 
 export const StackItem: React.FC<{
   className?: string
@@ -57,7 +58,28 @@ export const StackItem: React.FC<{
     >
       <div className="item--inner">
         <p>{titleFromProps || doc?.title}</p>
-        {displayImage && <Media htmlElement={null} resource={displayImage as MediaType} size="33vw" />}
+        {displayImage && (
+          typeof displayImage === 'object' && 'url' in displayImage && displayImage.url ? (
+            <picture>
+              <Image
+                src={displayImage.url}
+                alt={displayImage.alt || title || ''}
+                width={400}
+                height={300}
+                sizes="33vw"
+                priority={index !== undefined && index < 3}
+                className="stack-item-image"
+              />
+            </picture>
+          ) : (
+            <Media 
+              htmlElement={null} 
+              resource={displayImage as MediaType} 
+              size="33vw"
+              priority={index !== undefined && index < 3}
+            />
+          )
+        )}
       </div>
     </article>
   )

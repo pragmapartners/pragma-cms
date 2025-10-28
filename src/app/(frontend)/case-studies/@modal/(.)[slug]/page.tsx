@@ -5,26 +5,28 @@ import { notFound } from 'next/navigation'
 import RichText from '@/components/RichText'
 import { Media } from '@/components/Media'
 
+import { cache } from 'react'
+
+const getCaseStudy = cache(async (slug: string) => {
+  const payload = await getPayload({ config: configPromise })
+  
+  return await payload.find({
+    collection: 'case-studies',
+    where: { slug: { equals: slug } },
+    depth: 1,
+    limit: 1,
+  })
+})
+
 export default async function StudyModal({ 
   params 
 }: { 
   params: Promise<{ slug: string }> 
 }) {
-  console.log('🚀 Modal page rendered for slug:', await params)
   
   const { slug } = await params
-  const payload = await getPayload({ config: configPromise })
 
-  const caseStudy = await payload.find({
-    collection: 'case-studies',
-    where: {
-      slug: {
-        equals: slug,
-      },
-    },
-    depth: 2,
-    limit: 1,
-  })
+  const caseStudy = await getCaseStudy(slug)
 
   if (!caseStudy.docs.length) {
     notFound()

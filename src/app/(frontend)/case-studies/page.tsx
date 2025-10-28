@@ -1,3 +1,6 @@
+export const dynamic = 'force-static'
+export const revalidate = 3600
+
 import type { Metadata } from 'next'
 
 import { PayloadRedirects } from '@/components/PayloadRedirects'
@@ -15,6 +18,23 @@ import { LivePreviewListener } from '@/components/LivePreviewListener'
 const getPayloadInstance = cache(async () => {
   return await getPayload({ config: configPromise })
 })
+
+export async function generateStaticParams() {
+  const payload = await getPayload({ config: configPromise })
+  
+  const caseStudies = await payload.find({
+    collection: 'case-studies',
+    limit: 100,
+    pagination: false,
+    select: {
+      slug: true,
+    },
+  })
+
+  return caseStudies.docs.map(({ slug }) => ({
+    slug,
+  }))
+}
 
 export default async function CaseStudiesPage() {
   const { isEnabled: draft } = await draftMode()
