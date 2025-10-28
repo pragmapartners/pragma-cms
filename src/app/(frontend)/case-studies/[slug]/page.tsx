@@ -17,6 +17,8 @@ import { PostHero } from '@/heros/PostHero'
 import { generateMeta } from '@/utilities/generateMeta'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
 
+import { getCaseStudy } from '@/utilities/getCaseStudy'
+
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
   const caseStudies = await payload.find({
@@ -47,7 +49,7 @@ export default async function CaseStudy({ params: paramsPromise }: Args) {
   const { isEnabled: draft } = await draftMode()
   const { slug = '' } = await paramsPromise
   const url = '/case-studies/' + slug
-  const study = await queryPostBySlug({ slug })
+  const study = await getCaseStudy(slug)
 
   if (!study) return <PayloadRedirects url={url} />
 
@@ -73,28 +75,7 @@ export default async function CaseStudy({ params: paramsPromise }: Args) {
 
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
   const { slug = '' } = await paramsPromise
-  const study = await queryPostBySlug({ slug })
+  const study = await getCaseStudy(slug)
 
   return generateMeta({ doc: study })
 }
-
-const queryPostBySlug = cache(async ({ slug }: { slug: string }) => {
-  const { isEnabled: draft } = await draftMode()
-
-  const payload = await getPayload({ config: configPromise })
-
-  const result = await payload.find({
-    collection: 'case-studies',
-    draft,
-    limit: 1,
-    overrideAccess: draft,
-    pagination: false,
-    where: {
-      slug: {
-        equals: slug,
-      },
-    },
-  })
-
-  return result.docs?.[0] || null
-})

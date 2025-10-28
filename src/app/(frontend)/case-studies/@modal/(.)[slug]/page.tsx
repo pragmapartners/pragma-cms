@@ -1,22 +1,8 @@
 import { Modal } from '@/components/Modal'
-import { getPayload } from 'payload'
-import configPromise from '@payload-config'
-import { notFound } from 'next/navigation'
 import RichText from '@/components/RichText'
 import { Media } from '@/components/Media'
 
-import { cache } from 'react'
-
-const getCaseStudy = cache(async (slug: string) => {
-  const payload = await getPayload({ config: configPromise })
-  
-  return await payload.find({
-    collection: 'case-studies',
-    where: { slug: { equals: slug } },
-    depth: 1,
-    limit: 1,
-  })
-})
+import { getCaseStudy } from '@/utilities/getCaseStudy'
 
 export default async function StudyModal({ 
   params 
@@ -25,14 +11,8 @@ export default async function StudyModal({
 }) {
   
   const { slug } = await params
+  const study = await getCaseStudy(slug)
 
-  const caseStudy = await getCaseStudy(slug)
-
-  if (!caseStudy.docs.length) {
-    notFound()
-  }
-
-  const study = caseStudy.docs[0]
 
   return (
     <Modal>
