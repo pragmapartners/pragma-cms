@@ -24,7 +24,7 @@ export type StackItem = {
 export type StackProps = {
   className?: string
   items: StackItem[]
-  style?: 'scale' | 'bloom' | null
+  style?: 'scale' | 'bloom' | 'stack' | null
   relationTo?: 'posts' | 'case-studies'
 }
 
