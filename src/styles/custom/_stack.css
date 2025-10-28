@@ -3,7 +3,91 @@
   --stack-item-padding-inline: 1rem;
   --stack-item-radius: 24px;
   grid-column: full-bleed;
-  &[data-variant='bloom'] {
+  &[data-variant="stack"] {
+    --card-top-offset: 1em;
+    --card-height: 450px;
+    --card-margin: 1em;
+    display: grid;
+    grid-column: body;
+	  view-timeline-name: --cards-element-scrolls-in-body;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(var(--stack-total-count), var(--card-height));
+    gap: var(--card-margin);
+    .stack--item{
+      --stack-item-padding-block: 0.5rem;
+      --stack-item-padding-inline: 0.5rem;
+      --index0: calc(var(--index) - 1); /* 0-based index */
+      --reverse-index: calc(var(--stack-item-count) - var(--index0)); /* reverse index */
+      --reverse-index0: calc(var(--reverse-index) - 1); /* 0-based reverse index */
+      position: sticky;
+      top: 0;
+      overflow: hidden;
+      padding-top: calc(var(--index) * var(--card-top-offset));
+      .item--inner{
+        --title-inline-padding: 1rem;
+        --title-block-padding: 1rem;
+        --r: calc(var(--stack-item-radius) - var(--stack-item-padding-block)); /* the radius */
+        --s: calc(var(--r) + 0.5rem); /* size of inner curve */
+        --x: calc(var(--title-count) * 1ch); /* horizontal offset (no percentage) */
+        --y: 0.5ex; /* vertical offset (no percentage) */
+        --start-range: calc(var(--index0) / var(--stack-item-count) * 100%);
+	      --end-range: calc((var(--index)) / var(--stack-item-count) * 100%);
+        display: grid;
+        justify-content: revert;
+        animation: linear scale forwards;
+        border-radius: var(--stack-item-radius);
+        height: 100%;
+        padding: var(--stack-item-padding-block) var(--stack-item-padding-inline);
+        font-size: 2rem;
+        animation-timeline: --cards-element-scrolls-in-body;
+        animation-range: exit-crossing var(--start-range) exit-crossing var(--end-range);
+        transform-origin: 50% 0%;
+        will-change: transform;
+        grid-template-areas: "stack";
+        gap: 0;
+        & > * {
+          grid-area: stack;
+        }
+        p{
+          align-self: end;
+          padding-block-end: round(down, calc(1ex / 4), 1px);
+          padding-inline-start: var(--r);
+          font-weight: 900;
+          text-transform: lowercase;
+          line-height: normal;
+          color: black;
+        }
+        picture{
+          --_m:/calc(2*var(--r)) calc(2*var(--r)) radial-gradient(#000 70%,#0000 72%);
+          --_g:conic-gradient(from 180deg at var(--r) calc(100% - var(--r)),#0000 25%,#000 0);
+          --_d:(var(--s) + var(--r));
+
+          z-index: -1;
+          overflow: hidden;
+          border-radius: var(--r);
+          width: 100%;
+          max-width: revert;
+          height: 100%;
+          mask:
+            calc(var(--_d) + var(--x)) 100% var(--_m),
+            0 calc(100% - var(--_d) - var(--y)) var(--_m),
+            radial-gradient(var(--s) at 0 100%,#0000 99%,#000 calc(100% + 1px)) 
+            calc(var(--r) + var(--x)) calc(-1*var(--r) - var(--y)),
+            var(--_g) calc(var(--_d) + var(--x)) 0,
+            var(--_g) 0 calc(-1*var(--_d) - var(--y));
+          mask-repeat: no-repeat;
+          
+          img{
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+          }
+        }
+      }
+    }
+  }
+  &[data-variant="bloom"] {
     display: grid;
     grid-column: body;
     gap: 2rem;
@@ -44,11 +128,12 @@
 .stack--item{
   --background-color: #ffcc00;
   
-  background-color: var(--background-color);
+  
   & .item--inner{
     display: flex;
     justify-content: space-between;
     align-items: center;
+    background-color: var(--background-color);
     gap:24rem;
     picture{
       max-width: 450px;
@@ -67,5 +152,16 @@
     translate: calc(200px * var(--side, 1)) 10%;
     rotate: calc((var(--side, 1) * (5deg * var(--amp, 1))));
     scale: .85;
+  }
+}
+
+@keyframes scale {
+	to {
+		transform: scale(calc(1.1 - calc(0.1 * var(--reverse-index))));
+	}
+}
+@keyframes slide-picture {
+  to {
+    translate: 0 -50px;
   }
 }

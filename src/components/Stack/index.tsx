@@ -41,6 +41,10 @@ export const Stack: React.FC<StackProps> = (props) => {
         className,
       )}
       data-variant={style}
+      style={{
+        '--stack-item-count': extendedItems.length > 5 ? 5 : extendedItems.length,
+        '--stack-total-count': extendedItems.length
+      } as React.CSSProperties}
     >
       {items && items.length > 0 && (
         <>
@@ -53,6 +57,7 @@ export const Stack: React.FC<StackProps> = (props) => {
                 className={
                   style === 'scale' ? 'fullwidth' : ''
                 }
+                style={{'--index': index + 1} as React.CSSProperties}
                 relationTo={relationTo}
               />
             )

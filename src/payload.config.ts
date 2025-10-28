@@ -69,6 +69,10 @@ export default buildConfig({
   db: postgresAdapter({
     pool: {
       connectionString: process.env.DATABASE_URI || '',
+      max: 5, // Lower than Supabase's limit
+      min: 1,
+      idleTimeoutMillis: 30000,
+      connectionTimeoutMillis: 10000,
     },
   }),
   collections: [Pages, Posts, Media, Categories, Services, Users, TeamMembers, CaseStudies],

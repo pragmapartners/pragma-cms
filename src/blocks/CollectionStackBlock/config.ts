@@ -17,6 +17,10 @@ export const CollectionStack: Block = {
           label: 'Bloom',
           value: 'bloom',
         },
+        {
+          label: 'Stack',
+          value: 'stack'
+        }
       ],
     },
     {

@@ -792,7 +792,7 @@ export interface TeamMember {
  * via the `definition` "CollectionStackBlock".
  */
 export interface CollectionStackBlock {
-  style?: ('scale' | 'bloom') | null;
+  style?: ('scale' | 'bloom' | 'stack') | null;
   relationTo?: 'case-studies' | null;
   limit?: number | null;
   id?: string | null;

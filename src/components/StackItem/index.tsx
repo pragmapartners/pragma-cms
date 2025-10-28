@@ -20,10 +20,11 @@ export const StackItem: React.FC<{
   staticImage?: StaticImageData
   index?: number
   relationTo?: 'posts' | 'case-studies'
+  style?: React.CSSProperties
 }> = (props) => {
   const router = useRouter()
 
-  const { className, doc, title: titleFromProps, staticImage, index, relationTo } = props
+  const { className, doc, title: titleFromProps, staticImage, index, relationTo, style } = props
   const { title, media, slug } = doc || {}
 
   const displayImage = staticImage || (media && media.length > 0 ? media[0] : null)
@@ -36,11 +37,21 @@ export const StackItem: React.FC<{
     router.push(href, { scroll: false })
   }
 
+  const titleCharacterCount = (title: string) => {
+    let x = title.replace(/\s+/g, '').trim()
+    x = x.replace(/[^\w\s]/gi, '') 
+    return x.length
+  }
+
   return (
     <article 
       className={cn('stack--item', className)}
       onClick={handleClick}
-      style={{ cursor: 'pointer' }}
+      style={{ 
+        '--title-count': title ? titleCharacterCount(title) : 0,
+        cursor: 'pointer',
+        ...style 
+      } as React.CSSProperties}
     >
       <div className="item--inner">
         <p>{titleFromProps || doc?.title}</p>
