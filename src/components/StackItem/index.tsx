@@ -41,7 +41,7 @@ export const StackItem: React.FC<{
 
   return (
     // @TODO replace with native Link component
-    <Link href={href} scroll={false}>
+    
       <article 
         className={cn('stack--item', className)}
         // onMouseEnter={() => router.prefetch(href)}
@@ -52,32 +52,33 @@ export const StackItem: React.FC<{
           ...style 
         } as React.CSSProperties}
       >
-        <div className="item--inner">
-          <p>{titleFromProps || doc?.title}</p>
-          {displayImage && (
-            typeof displayImage === 'object' && 'url' in displayImage && displayImage.url ? (
-              <picture>
-                <Image
-                  src={displayImage.url}
-                  alt={displayImage.alt || title || ''}
-                  width={400}
-                  height={300}
-                  sizes="33vw"
+        <Link href={href} scroll={false}>
+          <div className="item--inner">
+            <p>{titleFromProps || doc?.title}</p>
+            {displayImage && (
+              typeof displayImage === 'object' && 'url' in displayImage && displayImage.url ? (
+                <picture>
+                  <Image
+                    src={displayImage.url}
+                    alt={displayImage.alt || title || ''}
+                    width={400}
+                    height={300}
+                    sizes="33vw"
+                    priority={index !== undefined && index < 3}
+                    className="stack-item-image"
+                  />
+                </picture>
+              ) : (
+                <Media 
+                  htmlElement={null} 
+                  resource={displayImage as MediaType} 
+                  size="33vw"
                   priority={index !== undefined && index < 3}
-                  className="stack-item-image"
                 />
-              </picture>
-            ) : (
-              <Media 
-                htmlElement={null} 
-                resource={displayImage as MediaType} 
-                size="33vw"
-                priority={index !== undefined && index < 3}
-              />
-            )
-          )}
-        </div>
+              )
+            )}
+          </div>
+        </Link>
       </article>
-    </Link>
   )
 }
