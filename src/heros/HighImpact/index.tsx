@@ -7,6 +7,7 @@ import type { Page } from '@/payload-types'
 import { CMSLink } from '@/components/Link'
 import { Media } from '@/components/Media'
 import RichText from '@/components/RichText'
+import { CMSButton } from '@/components/Button'
 
 export const HighImpactHero: React.FC<Page['hero']> = ({ links, media, richText, eyebrow }) => {
   const { setHeaderTheme } = useHeaderTheme()
@@ -26,7 +27,7 @@ export const HighImpactHero: React.FC<Page['hero']> = ({ links, media, richText,
               {links.map(({ link }, i) => {
                 return (
                   <li key={i}>
-                    <CMSLink {...link} />
+                    <CMSButton {...link} />
                   </li>
                 )
               })}
