@@ -140,6 +140,7 @@
       span {
         align-self: end;
         padding:1lh;
+        color: var(--foreground);
         visibility: hidden;
       }
       img {

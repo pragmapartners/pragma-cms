@@ -1,11 +1,17 @@
 import * as React from 'react';
 import { SVGProps } from 'react';
-const Wordmark = (props: SVGProps<SVGSVGElement>) => (
+import { cn } from '@/utilities/ui'
+
+interface Props {
+  className?: string
+}
+
+const Wordmark = (props: Props) => (
   <svg
     xmlns='http://www.w3.org/2000/svg'
     fill='none'
     viewBox='0 0 589 108'
-    {...props}
+    className={cn('w-[180px]', props.className)}
   >
     <path
       fill='currentColor'
